@@ -1,0 +1,479 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>untitled5</title><meta name="generator" content="MATLAB 8.1"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2014-02-05"><meta name="DC.source" content="untitled5.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, tt, code { font-size:12px; }
+pre { margin:0px 0px 20px; }
+pre.error { color:red; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#2">Prpop de lesiones:Volumen, Orientacion, intesidad, fractal dimension</a></li><li><a href="#6">elegir varias poblaciones</a></li><li><a href="#8">cantidad de lesiones</a></li></ul></div><pre class="codeinput"><span class="comment">% Batch que sirve para segementar lesiones, tomando encuenta el histograma</span>
+<span class="comment">% encontrando la moda y la media</span>
+<span class="comment">% donde cada paciente necesita tener segementada la materia Blanca de la</span>
+<span class="comment">% FLAIR.</span>
+<span class="comment">%__________________________________________________________________________</span>
+<span class="comment">% ESPOL     FIEC &amp; FIMCP    NBL"Neuroimaging &amp; Bioengineering Laboratory"</span>
+
+<span class="comment">% Orlando Chancay</span>
+<span class="comment">% $Id: seg_lesTESIS.m  25-Nov-2013  9:48:13z$</span>
+</pre><h2>Prpop de lesiones:Volumen, Orientacion, intesidad, fractal dimension<a name="2"></a></h2><pre class="codeinput">clc
+clear <span class="string">all</span>
+<span class="comment">% close all</span>
+disp(<span class="string">'******** beginning PROPIEDADES OF LESSIONS ********'</span>);
+tic
+</pre><pre class="codeoutput">******** beginning PROPIEDADES OF LESSIONS ********
+</pre><p>subjects={'sb1', 'sb2', 'sb3', 'sb4', 'sb5', 'sb6', 'sb7', 'sb8', 'sb9', 'sb10' };</p><pre class="codeinput">matlabroot=<span class="string">'/Users/orlando/Documents/MATLAB/TESIS/test'</span>;
+</pre><pre class="codeinput">filename = <span class="string">'infdelessMNI_estudionuevoCANTIDAD.txt'</span>;
+fid2 = fopen(filename, <span class="string">'w'</span>);
+</pre><h2>elegir varias poblaciones<a name="6"></a></h2><pre class="codeinput">poblacion = {<span class="string">'HC'</span>, <span class="string">'LPD'</span>, <span class="string">'RPD'</span>};
+<span class="keyword">for</span> pobl = 1 : length (poblacion)
+
+    [sb_files , subjects] = spm_select(<span class="string">'List'</span>,fullfile(matlabroot,poblacion(pobl)));
+    subjects = cellstr(subjects)'; <span class="comment">% escojo todos los sujetos del estudio</span>
+
+
+<span class="keyword">for</span> i=1 : length(subjects)
+</pre><pre class="codeinput">    fnm1 = spm_select(<span class="string">'List'</span>, fullfile(matlabroot,poblacion(pobl),subjects{i},<span class="string">'TEMP6'</span>,<span class="string">'t2_tirm_TRA_dark-fluid_3mm'</span>),<span class="string">'^wnormWMrs.*\.nii$'</span>); <span class="comment">% select images for the smooth</span>
+    WMflair = char(fullfile(matlabroot,poblacion(pobl),subjects{i},<span class="string">'TEMP6'</span>,<span class="string">'t2_tirm_TRA_dark-fluid_3mm'</span>,deblank(fnm1(1,:))));  <span class="comment">% image(s) to be smoothed (or 3D array)</span>
+    VolEtiq = char(fullfile(matlabroot,poblacion(pobl),subjects{i},<span class="string">'TEMP6'</span>,<span class="string">'t2_tirm_TRA_dark-fluid_3mm'</span>,deblank(fnm1(2,:))));  <span class="comment">% image(s) to be smoothed (or 3D array)</span>
+<span class="comment">%     nii_32bit (WMflair);</span>
+<span class="comment">%     fnm2 = spm_select('List', fullfile(matlabroot,subjects{i},'TEMP6'),'^rs.*\.nii$');</span>
+<span class="comment">%     rsflair = fullfile(matlabroot,subjects{i},'TEMP6',deblank(fnm2));  % image(s) to be smoothed (or 3D array)</span>
+<span class="comment">%     nii_32bit (rsflair);</span>
+     Vf = spm_vol(WMflair);
+     imgf = spm_read_vols(Vf);
+     V = spm_vol(VolEtiq);
+     img = spm_read_vols(V);
+</pre><h2>cantidad de lesiones<a name="8"></a></h2><pre class="codeinput">     img=round(img);
+
+     fprintf(fid2, <span class="string">'%s %s %s %s %s\n'</span>, <span class="string">'SUJETO# '</span>,num2str(i),<span class="string">' con '</span>,num2str(max(max(max(img)))),<span class="string">' lessions'</span>);
+<span class="comment">%      %%</span>
+<span class="comment">%      % agregar intensidad para normalizar al espacio NMI y no perder informacion</span>
+<span class="comment">% %      [pth bnm ext] = spm_fileparts(WMflair);</span>
+<span class="comment">% %     VO = Vf; % copy input info for output image</span>
+<span class="comment">% %     VO.fname = fullfile(pth, ['norm' bnm ext]);</span>
+<span class="comment">% %     L = logical(img);</span>
+<span class="comment">% %     LX= double(L)*100;</span>
+<span class="comment">% %     imgf = imgf + LX;</span>
+<span class="comment">% %     spm_write_vol(VO,imgf); % guardo volumen logico como .nii</span>
+<span class="comment">% %% Fractal dimension</span>
+<span class="comment">% % D=img;</span>
+<span class="comment">% % D = squeeze(D) ;</span>
+<span class="comment">% % [fds ics averFD averIC]= fdvolfft(D)</span>
+<span class="comment">% % fprintf(fid2, '%s %s %s %s %s\n', 'SUJETO# ',num2str(i),' con ',num2str(averFD),' dimFractal');</span>
+<span class="comment">%</span>
+<span class="comment">%      %% imrimir lesiones en vlumen</span>
+<span class="comment">%</span>
+<span class="comment">% figNumber=figure;</span>
+<span class="comment">% colordef(figNumber,'white');</span>
+<span class="comment">% set(gcf,'InvertHardcopy','off')</span>
+<span class="comment">%</span>
+<span class="comment">% cla</span>
+<span class="comment">% LZ=imgf;</span>
+<span class="comment">% %  LZ(:,:,1:30)=[];</span>
+<span class="comment">% %  LZ(:,:,100:130)=[];</span>
+<span class="comment">% % imgreshape = reshape(LZ,192,2304);</span>
+<span class="comment">% D=LZ;</span>
+<span class="comment">% D = squeeze(D);</span>
+<span class="comment">% [x, y, z, D] = subvolume(D, [nan nan nan nan nan 160]);</span>
+<span class="comment">% % [x,y,z,D] = subvolume(D,[nan,nan,nan,60,nan,nan]);</span>
+<span class="comment">% p = patch(isosurface(x,y,z,D, 5), 'FaceColor', 'black', 'EdgeColor', 'none');</span>
+<span class="comment">% patch(isocaps(x,y,z,D, 5), 'FaceColor', 'interp', 'EdgeColor', 'none');</span>
+<span class="comment">% isonormals(x,y,z,D,p);</span>
+<span class="comment">% view(3)</span>
+<span class="comment">% daspect([1 1 1])    % setea los ejes de 0 a 1</span>
+<span class="comment">% colormap(gray(100)) % color interno</span>
+<span class="comment">% camva('manual')</span>
+<span class="comment">% box on</span>
+<span class="comment">% camlight(40, 40) % iluminacion</span>
+<span class="comment">% camlight(-20,-10)% iluminacion</span>
+<span class="comment">% % % lighting phong, alpha(.5)</span>
+<span class="comment">%   lighting gouraud , alpha(.09)   %  me da la transparencia alpha(.5)</span>
+<span class="comment">%</span>
+<span class="comment">%</span>
+<span class="comment">% %  ColorSpec funcion para escoger color en RGB</span>
+<span class="comment">%  % imprime lessiones</span>
+<span class="comment">% % hold on</span>
+<span class="comment">%  img=round(img+10);</span>
+<span class="comment">%  min(min(min(img)));</span>
+<span class="comment">%   for l=11 : max(max(max(img)))</span>
+<span class="comment">%</span>
+<span class="comment">% % imrimir lesions en box</span>
+<span class="comment">% figNumber=figure;</span>
+<span class="comment">% colordef(figNumber,'white');</span>
+<span class="comment">% set(gcf,'InvertHardcopy','off')</span>
+<span class="comment">% cla</span>
+<span class="comment">%</span>
+<span class="comment">%      LL=img;</span>
+<span class="comment">%</span>
+<span class="comment">%      LL(LL~=l) = 0;</span>
+<span class="comment">% %  LZ(:,:,1:30)=[];</span>
+<span class="comment">% %  LZ(:,:,100:130)=[];</span>
+<span class="comment">% D=LL;</span>
+<span class="comment">% % label2rgb(la1)</span>
+<span class="comment">% D = squeeze(D);  % exprimo de 4D a 3D</span>
+<span class="comment">% [x, y, z, D] = subvolume(D, [nan nan nan nan nan 160]);</span>
+<span class="comment">% % [x,y,z,D] = subvolume(D,[nan,nan,nan,60,nan,nan]); % 60 y 100 son limites en x , cuando pongo NaN estoy cogiendo todo</span>
+<span class="comment">% p = patch(isosurface(x,y,z,D, 5), 'FaceColor', [round(rand) round(rand) round(rand)], 'EdgeColor', 'none');</span>
+<span class="comment">% patch(isocaps(x,y,z,D, 5), 'FaceColor', 'interp', 'EdgeColor', 'none');</span>
+<span class="comment">% isonormals(x,y,z,D,p);</span>
+<span class="comment">% view(3)</span>
+<span class="comment">% daspect([1 1 1])</span>
+<span class="comment">% colormap(gray(100))</span>
+<span class="comment">% camva('manual')</span>
+<span class="comment">% box on</span>
+<span class="comment">%  camlight(40, 40)</span>
+<span class="comment">%  camlight(-20,-10)</span>
+<span class="comment">% %  light('Position',[0 1 0],'Style','infinite');</span>
+<span class="comment">% lighting flat%, alpha(1)</span>
+<span class="comment">% %   lighting gouraud</span>
+<span class="comment">%   end</span>
+<span class="comment">%</span>
+<span class="comment">% % print('-dtiff','-r200',fullfile(matlabroot,poblacion(pobl),subjects{i},'TEMP6','t2_tirm_TRA_dark-fluid_3mm','lessions') );</span>
+<span class="comment">% % saveas(figNumber,fullfile(matlabroot,poblacion(pobl),subjects{i},'TEMP6','t2_tirm_TRA_dark-fluid_3mm','lessions'))</span>
+<span class="comment">%      %%</span>
+<span class="comment">%</span>
+<span class="comment">% %      find</span>
+<span class="comment">%      ICJ = img;</span>
+<span class="comment">%      ICJ(ICJ==0) = [];</span>
+<span class="comment">%      mx = -Inf;</span>
+<span class="comment">%     mn =  Inf;</span>
+<span class="comment">%     imgt = ICJ;</span>
+<span class="comment">%     msk = find(isfinite(imgt));</span>
+<span class="comment">%     mx  = max([max(imgt(msk)) mx]);</span>
+<span class="comment">%     mn  = min([min(imgt(msk)) mn]);</span>
+<span class="comment">%     % compute histograms..</span>
+<span class="comment">%     x = [mn:1:mx];</span>
+<span class="comment">%     n = zeros(size(x));</span>
+<span class="comment">%     imgt = ICJ;</span>
+<span class="comment">%     msk = find(isfinite(imgt));</span>
+<span class="comment">%     n   = n+hist(imgt(msk),x);</span>
+<span class="comment">%     n(1)=0;</span>
+<span class="comment">% %     figure</span>
+<span class="comment">% %     plot(x,n)</span>
+<span class="comment">%</span>
+<span class="comment">%     title(['SUJETO# ',num2str(i),' con ',num2str(sum(n)/1000),' cmm3 de lessions']);</span>
+<span class="comment">%      disp(['SUJETO# ',num2str(i),' con ',num2str(sum(n)/1000),' cmm3 de lessions']);</span>
+<span class="comment">%      fprintf(fid2, '%s %s %s %s %s\n', 'SUJETO# ',num2str(i),' con ',num2str(sum(n)/1000),' cmm3 de lessions');</span>
+<span class="comment">% %</span>
+<span class="comment">% % 	[n, x] = histvol(V, 256);</span>
+<span class="comment">% %     n(1)=0;</span>
+<span class="comment">% % 	figure;</span>
+<span class="comment">% % 	bar(x,n);</span>
+</pre><p><img src="untitled5_eq05913.png" alt="$$e^{\pi i} + 1 = 0$$"></p><p>$ | _ <b>x^2+e^{\pi i}</b> _ | $</p><p><img src="untitled5_eq05913.png" alt="$$e^{\pi i} + 1 = 0$$"></p><pre>PREFORMATTED
+TEXT</pre><div><ul><li>ITEM1</li></ul></div><div><ol><li>ITEM1</li><li>ITEM2</li></ol></div><div><ul><li>ITEM2</li></ul></div><pre class="language-matlab"><span class="keyword">for</span> x = 1:10
+    disp(x)
+<span class="keyword">end</span>
+</pre><pre class="codeinput"><span class="keyword">end</span>
+<span class="keyword">end</span>
+fclose(fid2);
+disp(<span class="string">'done'</span>)
+toc
+type <span class="string">infdelessMNI_estudionuevoCANTIDAD.txt</span>
+<span class="comment">% type infdelessMNI.txt</span>
+</pre><pre class="codeoutput">done
+Elapsed time is 10.420829 seconds.
+
+SUJETO#  1  con  41  lessions
+SUJETO#  2  con  39  lessions
+SUJETO#  3  con  48  lessions
+SUJETO#  4  con  25  lessions
+SUJETO#  5  con  44  lessions
+SUJETO#  6  con  45  lessions
+SUJETO#  7  con  33  lessions
+SUJETO#  8  con  53  lessions
+SUJETO#  9  con  28  lessions
+SUJETO#  10  con  43  lessions
+SUJETO#  11  con  32  lessions
+SUJETO#  12  con  40  lessions
+SUJETO#  13  con  40  lessions
+SUJETO#  14  con  36  lessions
+SUJETO#  15  con  30  lessions
+SUJETO#  16  con  47  lessions
+SUJETO#  17  con  48  lessions
+SUJETO#  18  con  31  lessions
+SUJETO#  19  con  27  lessions
+SUJETO#  20  con  38  lessions
+SUJETO#  21  con  20  lessions
+SUJETO#  1  con  31  lessions
+SUJETO#  2  con  51  lessions
+SUJETO#  3  con  30  lessions
+SUJETO#  4  con  30  lessions
+SUJETO#  5  con  45  lessions
+SUJETO#  6  con  32  lessions
+SUJETO#  7  con  34  lessions
+SUJETO#  8  con  57  lessions
+SUJETO#  9  con  57  lessions
+SUJETO#  10  con  39  lessions
+SUJETO#  11  con  26  lessions
+SUJETO#  12  con  42  lessions
+SUJETO#  13  con  23  lessions
+SUJETO#  1  con  33  lessions
+SUJETO#  2  con  39  lessions
+SUJETO#  3  con  27  lessions
+SUJETO#  4  con  37  lessions
+SUJETO#  5  con  40  lessions
+SUJETO#  6  con  26  lessions
+SUJETO#  7  con  39  lessions
+SUJETO#  8  con  34  lessions
+SUJETO#  9  con  41  lessions
+
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2013a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+% Batch que sirve para segementar lesiones, tomando encuenta el histograma
+% encontrando la moda y la media
+% donde cada paciente necesita tener segementada la materia Blanca de la
+% FLAIR.
+%__________________________________________________________________________
+% ESPOL     FIEC & FIMCP    NBL"Neuroimaging & Bioengineering Laboratory"
+
+% Orlando Chancay
+% $Id: seg_lesTESIS.m  25-Nov-2013  9:48:13z$
+%% Prpop de lesiones:Volumen, Orientacion, intesidad, fractal dimension
+%% 
+clc 
+clear all 
+% close all
+disp('******** beginning PROPIEDADES OF LESSIONS ********');
+tic
+%% 
+% subjects={'sb1', 'sb2', 'sb3', 'sb4', 'sb5', 'sb6', 'sb7', 'sb8', 'sb9', 'sb10' };
+matlabroot='/Users/orlando/Documents/MATLAB/TESIS/test';
+
+%% 
+filename = 'infdelessMNI_estudionuevoCANTIDAD.txt';
+fid2 = fopen(filename, 'w');
+
+%% elegir varias poblaciones
+poblacion = {'HC', 'LPD', 'RPD'};
+for pobl = 1 : length (poblacion)
+
+    [sb_files , subjects] = spm_select('List',fullfile(matlabroot,poblacion(pobl)));
+    subjects = cellstr(subjects)'; % escojo todos los sujetos del estudio
+    
+    
+for i=1 : length(subjects)
+    fnm1 = spm_select('List', fullfile(matlabroot,poblacion(pobl),subjects{i},'TEMP6','t2_tirm_TRA_dark-fluid_3mm'),'^wnormWMrs.*\.nii$'); % select images for the smooth
+    WMflair = char(fullfile(matlabroot,poblacion(pobl),subjects{i},'TEMP6','t2_tirm_TRA_dark-fluid_3mm',deblank(fnm1(1,:))));  % image(s) to be smoothed (or 3D array)
+    VolEtiq = char(fullfile(matlabroot,poblacion(pobl),subjects{i},'TEMP6','t2_tirm_TRA_dark-fluid_3mm',deblank(fnm1(2,:))));  % image(s) to be smoothed (or 3D array)
+%     nii_32bit (WMflair);
+%     fnm2 = spm_select('List', fullfile(matlabroot,subjects{i},'TEMP6'),'^rs.*\.nii$');
+%     rsflair = fullfile(matlabroot,subjects{i},'TEMP6',deblank(fnm2));  % image(s) to be smoothed (or 3D array)
+%     nii_32bit (rsflair);
+     Vf = spm_vol(WMflair);
+     imgf = spm_read_vols(Vf);
+     V = spm_vol(VolEtiq);
+     img = spm_read_vols(V);
+     %% cantidad de lesiones
+     img=round(img);
+     
+     fprintf(fid2, '%s %s %s %s %s\n', 'SUJETO# ',num2str(i),' con ',num2str(max(max(max(img)))),' lessions');
+%      %% 
+%      % agregar intensidad para normalizar al espacio NMI y no perder informacion
+% %      [pth bnm ext] = spm_fileparts(WMflair);
+% %     VO = Vf; % copy input info for output image
+% %     VO.fname = fullfile(pth, ['norm' bnm ext]);
+% %     L = logical(img);
+% %     LX= double(L)*100;
+% %     imgf = imgf + LX;
+% %     spm_write_vol(VO,imgf); % guardo volumen logico como .nii
+% %% Fractal dimension
+% % D=img;
+% % D = squeeze(D) ;
+% % [fds ics averFD averIC]= fdvolfft(D)
+% % fprintf(fid2, '%s %s %s %s %s\n', 'SUJETO# ',num2str(i),' con ',num2str(averFD),' dimFractal');
+% 
+%      %% imrimir lesiones en vlumen
+%       
+% figNumber=figure;
+% colordef(figNumber,'white');
+% set(gcf,'InvertHardcopy','off')
+% 
+% cla
+% LZ=imgf;
+% %  LZ(:,:,1:30)=[];
+% %  LZ(:,:,100:130)=[];
+% % imgreshape = reshape(LZ,192,2304);
+% D=LZ;
+% D = squeeze(D);
+% [x, y, z, D] = subvolume(D, [nan nan nan nan nan 160]);
+% % [x,y,z,D] = subvolume(D,[nan,nan,nan,60,nan,nan]);
+% p = patch(isosurface(x,y,z,D, 5), 'FaceColor', 'black', 'EdgeColor', 'none');
+% patch(isocaps(x,y,z,D, 5), 'FaceColor', 'interp', 'EdgeColor', 'none');
+% isonormals(x,y,z,D,p);
+% view(3)
+% daspect([1 1 1])    % setea los ejes de 0 a 1
+% colormap(gray(100)) % color interno 
+% camva('manual')
+% box on
+% camlight(40, 40) % iluminacion
+% camlight(-20,-10)% iluminacion
+% % % lighting phong, alpha(.5) 
+%   lighting gouraud , alpha(.09)   %  me da la transparencia alpha(.5)
+%  
+%  
+% %  ColorSpec funcion para escoger color en RGB
+%  % imprime lessiones
+% % hold on
+%  img=round(img+10);
+%  min(min(min(img)));
+%   for l=11 : max(max(max(img)))
+% 
+% % imrimir lesions en box      
+% figNumber=figure;
+% colordef(figNumber,'white');
+% set(gcf,'InvertHardcopy','off')
+% cla
+%       
+%      LL=img;
+%     
+%      LL(LL~=l) = 0;
+% %  LZ(:,:,1:30)=[];
+% %  LZ(:,:,100:130)=[];
+% D=LL;
+% % label2rgb(la1)
+% D = squeeze(D);  % exprimo de 4D a 3D
+% [x, y, z, D] = subvolume(D, [nan nan nan nan nan 160]); 
+% % [x,y,z,D] = subvolume(D,[nan,nan,nan,60,nan,nan]); % 60 y 100 son limites en x , cuando pongo NaN estoy cogiendo todo  
+% p = patch(isosurface(x,y,z,D, 5), 'FaceColor', [round(rand) round(rand) round(rand)], 'EdgeColor', 'none');
+% patch(isocaps(x,y,z,D, 5), 'FaceColor', 'interp', 'EdgeColor', 'none');
+% isonormals(x,y,z,D,p);
+% view(3)
+% daspect([1 1 1])
+% colormap(gray(100))
+% camva('manual')
+% box on
+%  camlight(40, 40)
+%  camlight(-20,-10)
+% %  light('Position',[0 1 0],'Style','infinite');
+% lighting flat%, alpha(1) 
+% %   lighting gouraud
+%   end
+%  
+% % print('-dtiff','-r200',fullfile(matlabroot,poblacion(pobl),subjects{i},'TEMP6','t2_tirm_TRA_dark-fluid_3mm','lessions') );
+% % saveas(figNumber,fullfile(matlabroot,poblacion(pobl),subjects{i},'TEMP6','t2_tirm_TRA_dark-fluid_3mm','lessions'))
+%      %% 
+%      
+% %      find
+%      ICJ = img;
+%      ICJ(ICJ==0) = [];
+%      mx = -Inf;
+%     mn =  Inf;
+%     imgt = ICJ;
+%     msk = find(isfinite(imgt));
+%     mx  = max([max(imgt(msk)) mx]);
+%     mn  = min([min(imgt(msk)) mn]);
+%     % compute histograms..
+%     x = [mn:1:mx];
+%     n = zeros(size(x));
+%     imgt = ICJ;
+%     msk = find(isfinite(imgt));
+%     n   = n+hist(imgt(msk),x);
+%     n(1)=0;
+% %     figure
+% %     plot(x,n)
+%     
+%     title(['SUJETO# ',num2str(i),' con ',num2str(sum(n)/1000),' cmm3 de lessions']);
+%      disp(['SUJETO# ',num2str(i),' con ',num2str(sum(n)/1000),' cmm3 de lessions']); 
+%      fprintf(fid2, '%s %s %s %s %s\n', 'SUJETO# ',num2str(i),' con ',num2str(sum(n)/1000),' cmm3 de lessions');
+% %      
+% % 	[n, x] = histvol(V, 256);
+% %     n(1)=0;
+% % 	figure;
+% % 	bar(x,n);
+%%
+% 
+% $$e^{\pi i} + 1 = 0$$
+% 
+%%
+%%
+% $ | _ *x^2+e^{\pi i}* _ | $
+% 
+% $$e^{\pi i} + 1 = 0$$
+% 
+%  PREFORMATTED
+%  TEXT
+% 
+% 
+% 
+% * ITEM1
+% 
+% # ITEM1
+% # ITEM2
+% 
+% * ITEM2
+% 
+%%
+% 
+%   for x = 1:10
+%       disp(x)
+%   end
+% 
+
+end
+end
+fclose(fid2);
+disp('done')
+toc
+type infdelessMNI_estudionuevoCANTIDAD.txt
+% type infdelessMNI.txt
+##### SOURCE END #####
+--></body></html>

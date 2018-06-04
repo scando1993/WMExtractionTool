@@ -1,0 +1,56 @@
+
+% This LaTeX was auto-generated from an M-file by MATLAB.
+% To make changes, update the M-file and republish this document.
+
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{color}
+
+\sloppy
+\definecolor{lightgray}{gray}{0.5}
+\setlength{\parindent}{0pt}
+
+\begin{document}
+
+    
+    
+\subsection*{Contents}
+
+\begin{itemize}
+\setlength{\itemsep}{-1ex}
+   \item Coreslice
+   \item Descripcion
+   \item Código
+\end{itemize}
+
+
+\subsection*{Coreslice}
+
+\begin{par}
+funcion que Coregistra las imagenes T1 y FLAIR y le aplica una interpolacion a las imagen FLIAR que posee 36 cortes.
+\end{par} \vspace{1em}
+\begin{itemize}
+\setlength{\itemsep}{-1ex}
+   \item ESPOL     FIEC \& FIMCP    NBL"Neuroimaging \& Bioengineering Laboratory"
+   \item Orlando Chancay
+   \item $Id: organizarfoldersTESIS.m  23-Nov-2013  9:48:13z$
+\end{itemize}
+
+
+\subsection*{Descripcion}
+
+\begin{par}
+Esta funcion seleciona todas las imagenes T1 y FLAIR y las coregistra mediante la funcion 'spm\_coreg', para leer las caebzaras de las iamgenes usamos la funcion 'spm\_vol', obtenemos el espacio de la T1 mediante la funcion spm\_get\_space y por último para interpolas cortes intermedios de la imagen FLAIR de 36 cortes se usa la funcion spm\_reslice
+\end{par} \vspace{1em}
+
+
+\subsection*{Código}
+
+\begin{par}
+la ruta de la carpeta de trabajo es enviada desde el programa principal y los nombre de los grupos. en las variable \textbf{ruta} , \textbf{nombresdepoblacion} Opciones seteadas:         defaults.coreg.estimate.cost\_fun = 'nmi';         defaults.coreg.estimate.sep      = [4 2];         defaults.coreg.estimate.tol      = [0.02 0.02 0.02 0.001 0.001 0.001 0.01 0.01 0.01 0.001 0.001 0.001];         defaults.coreg.estimate.fwhm     = [7 7];
+\end{par} \vspace{1em}
+
+
+
+\end{document}
+    

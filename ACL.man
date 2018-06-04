@@ -1,0 +1,62 @@
+% __________________________________________________________________________
+%Analisis y Cuantificacion de Lesiones Tolbox for SPM12
+% Version  1.0  (ACL_Toolbox)  2014-04-02
+%  http://www.espol.edu.ec
+% __________________________________________________________________________
+% Copyright (C) 2014 Orlando Chancay ochancay@espol.edu.ec
+% ==========================================================================
+% Description
+% ==========================================================================
+% 
+% 
+% ==========================================================================
+% Naming convention of output files
+% ==========================================================================
+%
+%
+% ==========================================================================
+% Technical information
+% ==========================================================================
+%
+% Carpetas:
+% 1.- Crear carpeta Study la cual contendra otra carpeta donde esten todas 
+% las imagenes T1 y Flair.
+% Solo es necesario esto para poder trabajar con la toolbox.
+%
+% Botones:
+%
+% Load : cargara la ruta donde vamos a trabajar, seleccionar la carpeta que
+% agrupa todo el estudio, en este caso la carpeta Study.
+%
+% Organizer : Organiza las imagenes por sujeto y las guarda en una carpeta 
+% (forg2) la cual contendra todas las imagenes de los sujetos y a cada su_
+% jeto le crea una carpeta con su nombre y apellido y alli ubica la sus ima_
+% genes.
+%
+%
+% 
+%
+%
+%
+% 
+%
+%
+%
+% 
+%
+%
+%
+% 
+%
+%
+%
+% 
+%
+%
+%
+% 
+%
+%
+%
+% __________________________________________________________________________
+%                                                Orlando Chancay 2014-04-02

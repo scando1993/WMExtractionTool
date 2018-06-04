@@ -1,0 +1,169 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>tempTESIS_dos</title><meta name="generator" content="MATLAB 8.1"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2014-07-10"><meta name="DC.source" content="tempTESIS_dos.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, tt, code { font-size:12px; }
+pre { margin:0px 0px 20px; }
+pre.error { color:red; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#1">Template</a></li><li><a href="#3">Descripci&oacute;n</a></li><li><a href="#4">C&oacute;digo</a></li><li><a href="#7">elegir varias poblaciones</a></li></ul></div><h2>Template<a name="1"></a></h2><p>Funci&oacute;n que sirve para crear una plantilla a partir de todas las im&aacute;genes con la ayuda de <b>DARTEL</b>  'A Fast Diffeomorphic Registration Algorithm' \cite{ashburner2007fast} . de los sujetos del estudio. en nuestra tesis solamente creamos una plantilla con la Sustancia Blanca. La cual nos sirva para normalizar las im&aacute;genes y poder hacer comparaciones y &iexcl;an&aacute;lisis de ANOVA.</p><h2>Descripci&oacute;n<a name="3"></a></h2><p>Esta funci&oacute;n selecciona todas las im&aacute;genes SB_T1 con <b>spm_selec</b> de la imagen T1 y crea nuestra plantilla mediante la funci&oacute;n de SPM <b>dartel</b> .</p><h2>C&oacute;digo<a name="4"></a></h2><p>La funci&oacute;n necesita ruta de la carpeta de trabajo la cual debe ser enviada desde el programa principal y los nombre de los grupos que creamos.</p><p>matlabroot='/Users/orlando/Documents/MATLAB/TESIS/test';</p><h2>elegir varias poblaciones<a name="7"></a></h2><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2013a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Template
+function tempTESIS_dos (ruta,nombresdepoblacion)
+%%
+% Función que sirve para crear una plantilla a partir de todas las imágenes
+% con la ayuda de *DARTEL*  'A Fast Diffeomorphic Registration Algorithm'
+% \cite{ashburner2007fast} .
+% de los sujetos del estudio. en nuestra tesis solamente creamos una
+% plantilla con la Sustancia Blanca. La cual nos sirva para normalizar las
+% imágenes y poder hacer comparaciones y ¡análisis de ANOVA.
+%% Descripción
+% Esta función selecciona todas las imágenes SB_T1 con *spm_selec*
+% de la imagen T1 y crea nuestra plantilla mediante la función de SPM
+% *dartel* .
+%% Código
+% La función necesita ruta de la carpeta de trabajo la cual debe ser
+% enviada desde el programa principal y los nombre de los grupos que
+% creamos. 
+%REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH-
+% Job saved on 07-Dec-2013 14:29:15 by cfg_util (rev $Rev: 4972 $)
+% spm SPM - SPM12b (5616)
+% cfg_basicio BasicIO - Unknown
+%REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH-
+% clc 
+% clear all 
+disp('******** beginning CREATE TEMPLATE ********');
+tic
+%% 
+% matlabroot='/Users/orlando/Documents/MATLAB/TESIS/test';
+matlabroot = ruta;
+%% 
+clear matlabbatch;
+
+%% elegir varias poblaciones
+poblacion = nombresdepoblacion,%{'HC', 'LPD', 'RPD'};
+count = 1; 
+
+for pobl = 1 : length (poblacion)
+
+    [sb_files , subjects] = spm_select('List',fullfile(matlabroot,poblacion(pobl)));
+    subjects = cellstr(subjects)'; % escojo todos los sujetos del estudio
+    
+%     for i=1:length(subjects)
+%         fnm= spm_select('List', fullfile(matlabroot,subjects{i},'TEMP6'),'^rc2ss.*\.nii$'); % select images for the smooth
+%         rc2{i} = fullfile(matlabroot,subjects{i},'TEMP6',deblank(fnm(1,:)));
+%     end
+    
+    
+    i = 1;
+    while (pobl <=3 && i <= length(subjects))
+        fnm= spm_select('List', fullfile(matlabroot,poblacion(pobl),subjects{i},'TEMP6','t1_mprage_TRA_1x1x1'),'^rc2ss.*\.nii$'); % select images for the smooth
+        rc2{count} = char(fullfile(matlabroot,poblacion(pobl),subjects{i},'TEMP6','t1_mprage_TRA_1x1x1',deblank(fnm(1,:))));
+        count = count + 1;
+        i = i + 1;
+    end
+    
+end
+%% 
+
+matlabbatch{1}.spm.tools.dartel.warp.images = { rc2
+%                                                {
+%                                                '/Users/orlando/Documents/MATLAB/TESIS/test/sb1/TEMP5/rc2ss572978-0002-00001-000001-01.nii,1'
+%                                                '/Users/orlando/Documents/MATLAB/TESIS/test/sb2/TEMP5/rc2ss508840-0010-00001-000001-01.nii,1'
+%                                                '/Users/orlando/Documents/MATLAB/TESIS/test/sb3/TEMP5/rc2ss446223-0008-00001-000001-01.nii,1'
+%                                                }
+                                               }';
+matlabbatch{1}.spm.tools.dartel.warp.settings.template = 'Template';
+matlabbatch{1}.spm.tools.dartel.warp.settings.rform = 1;
+matlabbatch{1}.spm.tools.dartel.warp.settings.param(1).its = 3;
+matlabbatch{1}.spm.tools.dartel.warp.settings.param(1).rparam = [4 2 1e-06];
+matlabbatch{1}.spm.tools.dartel.warp.settings.param(1).K = 0;
+matlabbatch{1}.spm.tools.dartel.warp.settings.param(1).slam = 16;
+matlabbatch{1}.spm.tools.dartel.warp.settings.param(2).its = 3;
+matlabbatch{1}.spm.tools.dartel.warp.settings.param(2).rparam = [2 1 1e-06];
+matlabbatch{1}.spm.tools.dartel.warp.settings.param(2).K = 0;
+matlabbatch{1}.spm.tools.dartel.warp.settings.param(2).slam = 8;
+matlabbatch{1}.spm.tools.dartel.warp.settings.param(3).its = 3;
+matlabbatch{1}.spm.tools.dartel.warp.settings.param(3).rparam = [1 0.5 1e-06];
+matlabbatch{1}.spm.tools.dartel.warp.settings.param(3).K = 1;
+matlabbatch{1}.spm.tools.dartel.warp.settings.param(3).slam = 4;
+matlabbatch{1}.spm.tools.dartel.warp.settings.param(4).its = 3;
+matlabbatch{1}.spm.tools.dartel.warp.settings.param(4).rparam = [0.5 0.25 1e-06];
+matlabbatch{1}.spm.tools.dartel.warp.settings.param(4).K = 2;
+matlabbatch{1}.spm.tools.dartel.warp.settings.param(4).slam = 2;
+matlabbatch{1}.spm.tools.dartel.warp.settings.param(5).its = 3;
+matlabbatch{1}.spm.tools.dartel.warp.settings.param(5).rparam = [0.25 0.125 1e-06];
+matlabbatch{1}.spm.tools.dartel.warp.settings.param(5).K = 4;
+matlabbatch{1}.spm.tools.dartel.warp.settings.param(5).slam = 1;
+matlabbatch{1}.spm.tools.dartel.warp.settings.param(6).its = 3;
+matlabbatch{1}.spm.tools.dartel.warp.settings.param(6).rparam = [0.25 0.125 1e-06];
+matlabbatch{1}.spm.tools.dartel.warp.settings.param(6).K = 6;
+matlabbatch{1}.spm.tools.dartel.warp.settings.param(6).slam = 0.5;
+matlabbatch{1}.spm.tools.dartel.warp.settings.optim.lmreg = 0.01;
+matlabbatch{1}.spm.tools.dartel.warp.settings.optim.cyc = 3;
+matlabbatch{1}.spm.tools.dartel.warp.settings.optim.its = 3;
+
+ spm_jobman('serial',matlabbatch);
+    disp('done CREATE TEMPLATE')
+    toc 
+##### SOURCE END #####
+--></body></html>

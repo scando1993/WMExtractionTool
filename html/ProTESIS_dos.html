@@ -1,0 +1,180 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>ProTESIS_dos</title><meta name="generator" content="MATLAB 8.1"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2014-07-09"><meta name="DC.source" content="ProTESIS_dos.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, tt, code { font-size:12px; }
+pre { margin:0px 0px 20px; }
+pre.error { color:red; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#1">Dicom</a></li><li><a href="#4">Descripcion</a></li><li><a href="#5">C&oacute;digo</a></li><li><a href="#6">elegir varias poblaciones</a></li><li><a href="#8">create folder temporal</a></li><li><a href="#9">delete folder temporal</a></li><li><a href="#10">escojo los DICOM</a></li></ul></div><h2>Dicom<a name="1"></a></h2><p>funcion que convierte las imagenes DICOM a formato .nii &Uacute;til porque muchos esc&aacute;neres exportan sus datos en formato DICOM. Esta rutina convierte los ficheros DICOM en vol&uacute;menes de imagen compatibles con SPM</p><div><ul><li>ESPOL     FIEC &amp; FIMCP    NBL"Neuroimaging &amp; Bioengineering Laboratory"</li><li>Orlando Chancay</li><li><img src="ProTESIS_dos_eq04185.png" alt="$Id: organizarfoldersTESIS.m  23-Nov-2013  9:48:13z$"></li></ul></div><h2>Descripcion<a name="4"></a></h2><p>Esta funcion seleciona todas los cortes de una imagen y los convierte en unico volumen. se usa las funciones para selecionar ficheros como 'spm_select', una funcion para obtener las cabezeras de las imagenes DICOM 'spm_dicom_headers', y la funcion 'spm_dicom_convert' que nos ayuda a convertir las imagenes a .nii</p><h2>C&oacute;digo<a name="5"></a></h2><p>la ruta de la carpeta de trabajo es enviada desde el programa principal y los nombre de los grupos. en las variable <b>ruta</b> , <b>nombresdepoblacion</b></p><h2>elegir varias poblaciones<a name="6"></a></h2><h2>create folder temporal<a name="8"></a></h2><h2>delete folder temporal<a name="9"></a></h2><pre>   for  i=1: length(subjects)
+       [status,message,messageid] = rmdir(char(fullfile(matlabroot,poblacion(pobl),subjects{i},'TEMP6')),'s');
+   end</pre><h2>escojo los DICOM<a name="10"></a></h2><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2013a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Dicom
+function ProTESIS_dos (ruta,nombresdepoblacion)
+%% 
+% funcion que convierte las imagenes DICOM a formato .nii
+% Útil porque muchos escáneres exportan sus datos en formato DICOM. 
+% Esta rutina convierte los ficheros DICOM en volúmenes de imagen 
+% compatibles con SPM
+%%
+% 
+% * ESPOL     FIEC & FIMCP    NBL"Neuroimaging & Bioengineering Laboratory"
+% * Orlando Chancay
+% * $Id: organizarfoldersTESIS.m  23-Nov-2013  9:48:13z$
+%
+%% Descripcion
+% Esta funcion seleciona todas los cortes de una imagen y los convierte en
+% unico volumen.
+% se usa las funciones para selecionar ficheros como 'spm_select', una
+% funcion para obtener las cabezeras de las imagenes DICOM
+% 'spm_dicom_headers', y la funcion 'spm_dicom_convert' que nos ayuda a
+% convertir las imagenes a .nii
+%% Código
+% la ruta de la carpeta de trabajo es enviada desde el programa principal
+% y los nombre de los grupos.
+% en las variable *ruta* , *nombresdepoblacion* 
+
+
+
+
+
+fprintf('ACL Working in DICOM converter\n');
+tic
+% matlabroot='/Users/orlando/Documents/MATLAB/TESIS/test';
+matlabroot = ruta;
+%% elegir varias poblaciones
+poblacion = nombresdepoblacion;% {'HC', 'LPD', 'RPD'};
+
+for pobl = 1 : length (poblacion)
+
+    [sb_files , subjects] = spm_select('List',fullfile(matlabroot,poblacion(pobl)));
+    subjects = cellstr(subjects)'; % escojo todos los sujetos del estudio
+
+    %% create folder temporal
+    for  i=1: length(subjects)
+        [status,message,messageid] = mkdir(char(fullfile(matlabroot,poblacion(pobl),subjects{i})),'TEMP6');
+    end
+    % %% create folder DICOM
+    % for  i=1: length(subjects)
+    %     [status,message,messageid] = mkdir(char(fullfile(matlabroot,poblacion(pobl),subjects{i})),'DICOM');
+    % end
+    %% delete folder temporal
+%     
+%     for  i=1: length(subjects)
+%         [status,message,messageid] = rmdir(char(fullfile(matlabroot,poblacion(pobl),subjects{i},'TEMP6')),'s');
+%     end
+
+    %% escojo los DICOM
+
+    for i=1: length(subjects)
+
+
+        [files,dirsDICOM] = spm_select('List',fullfile(matlabroot,poblacion(pobl),subjects{i},'DICOM'));
+        [fd cds] = size(dirsDICOM);
+        for d = 1 : fd
+            [filesDICOM,dirs] = spm_select('List',fullfile(matlabroot,poblacion(pobl),subjects{i},'DICOM', deblank(dirsDICOM(d,:))),'\.dcm');
+    %         [filesFLAIR,dirsFLAIR] = spm_select('List',fullfile(matlabroot,subjects{i},'DICOM',dirsDICOM(2,:)),'\.dcm');
+            if filesDICOM > 0 % confirm which exist DICON files
+                for j = 1 : 1%lfil % get informations of field
+                    if isdicom(char(fullfile(matlabroot,poblacion(pobl),subjects{i},'DICOM', deblank(dirsDICOM(d,:)),deblank(filesDICOM(j,:)))));
+    %                 if isdicom(fullfile(matlabroot,'forg',deblank(dirsA(sub,:)),deblank(dirsB(lp,:)),deblank(filesDICOM(j,:))))
+                        X =  dicominfo(char(fullfile(matlabroot,poblacion(pobl),subjects{i},'DICOM', deblank(dirsDICOM(d,:)),deblank(filesDICOM(j,:)))));
+    %                     X =  dicominfo(fullfile(matlabroot,'forg',deblank(dirsA(sub,:)),deblank(dirsB(lp,:)),deblank(filesDICOM(j,:))));
+                        name = X.PatientName;
+                        secuencia = X.SeriesDescription;
+                    end
+                end 
+            
+            end
+            spm_my_defauls;
+            [ff,cf] =  size(filesDICOM);
+            clear hdr;
+            for ft=1 : ff
+            hdr(ft,1) = spm_dicom_headers(char(fullfile(matlabroot,poblacion(pobl),subjects{i},'DICOM',deblank(dirsDICOM(d,:))...
+                ,deblank(filesDICOM(ft,:)))));
+            end
+%             if strcmp( secuencia , 't1_mprage_TRA_1x1x1')
+%                 for ft=1 : ff
+%                     hdr{ft,1}.StudyID = 'T1'
+%                 end
+%             else
+%                 for ft=1 : ff
+%                     hdr{ft,1}.StudyID = 'FLAIR'
+%                 end
+%             end
+            [status,message,messageid] = mkdir(char(fullfile(matlabroot,poblacion(pobl),subjects{i},'TEMP6')),secuencia);
+            cd(char(fullfile(matlabroot,poblacion{pobl},deblank(subjects{i}),'TEMP6',secuencia)));
+%             cd('/Users/orlando/Documents/MATLAB/TESIS/test')
+             spm_dicom_convert(hdr,'all','flat','nii');
+             
+
+        end
+    end
+
+
+
+end
+fprintf('ACL Done DICOM converter\n');
+toc
+##### SOURCE END #####
+--></body></html>

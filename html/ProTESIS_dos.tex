@@ -1,0 +1,80 @@
+
+% This LaTeX was auto-generated from an M-file by MATLAB.
+% To make changes, update the M-file and republish this document.
+
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{color}
+
+\sloppy
+\definecolor{lightgray}{gray}{0.5}
+\setlength{\parindent}{0pt}
+
+\begin{document}
+
+    
+    
+\subsection*{Contents}
+
+\begin{itemize}
+\setlength{\itemsep}{-1ex}
+   \item Dicom
+   \item Descripcion
+   \item Código
+   \item elegir varias poblaciones
+   \item create folder temporal
+   \item delete folder temporal
+   \item escojo los DICOM
+\end{itemize}
+
+
+\subsection*{Dicom}
+
+\begin{par}
+funcion que convierte las imagenes DICOM a formato .nii Útil porque muchos escáneres exportan sus datos en formato DICOM. Esta rutina convierte los ficheros DICOM en volúmenes de imagen compatibles con SPM
+\end{par} \vspace{1em}
+\begin{itemize}
+\setlength{\itemsep}{-1ex}
+   \item ESPOL     FIEC \& FIMCP    NBL"Neuroimaging \& Bioengineering Laboratory"
+   \item Orlando Chancay
+   \item $Id: organizarfoldersTESIS.m  23-Nov-2013  9:48:13z$
+\end{itemize}
+
+
+\subsection*{Descripcion}
+
+\begin{par}
+Esta funcion seleciona todas los cortes de una imagen y los convierte en unico volumen. se usa las funciones para selecionar ficheros como 'spm\_select', una funcion para obtener las cabezeras de las imagenes DICOM 'spm\_dicom\_headers', y la funcion 'spm\_dicom\_convert' que nos ayuda a convertir las imagenes a .nii
+\end{par} \vspace{1em}
+
+
+\subsection*{Código}
+
+\begin{par}
+la ruta de la carpeta de trabajo es enviada desde el programa principal y los nombre de los grupos. en las variable \textbf{ruta} , \textbf{nombresdepoblacion}
+\end{par} \vspace{1em}
+
+
+\subsection*{elegir varias poblaciones}
+
+
+
+\subsection*{create folder temporal}
+
+
+
+\subsection*{delete folder temporal}
+
+
+\begin{verbatim}   for  i=1: length(subjects)
+       [status,message,messageid] = rmdir(char(fullfile(matlabroot,poblacion(pobl),subjects{i},'TEMP6')),'s');
+   end\end{verbatim}
+    
+
+\subsection*{escojo los DICOM}
+
+
+
+
+\end{document}
+    
