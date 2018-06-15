@@ -75,7 +75,8 @@ for pobl = 1 : length (poblacion)
                 end 
             
             end
-            spm_my_defauls;
+            %spm_my_defauls;
+            spm('Defaults','FMRI');
             [ff,cf] =  size(filesDICOM);
             clear hdr;
             for ft=1 : ff

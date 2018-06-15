@@ -14,55 +14,55 @@ function tempTESIS_dos (ruta,nombresdepoblacion)
 %% Código
 % La función necesita ruta de la carpeta de trabajo la cual debe ser
 % enviada desde el programa principal y los nombre de los grupos que
-% creamos. 
+% creamos.
 %-----------------------------------------------------------------------
 % Job saved on 07-Dec-2013 14:29:15 by cfg_util (rev $Rev: 4972 $)
 % spm SPM - SPM12b (5616)
 % cfg_basicio BasicIO - Unknown
 %-----------------------------------------------------------------------
-% clc 
-% clear all 
+% clc
+% clear all
 disp('******** beginning CREATE TEMPLATE ********');
 tic
-%% 
+%%
 % matlabroot='/Users/orlando/Documents/MATLAB/TESIS/test';
 matlabroot = ruta;
-%% 
+%%
 clear matlabbatch;
 
 %% elegir varias poblaciones
 poblacion = nombresdepoblacion,%{'HC', 'LPD', 'RPD'};
-count = 1; 
+count = 1;
 
 for pobl = 1 : length (poblacion)
-
+    
     [sb_files , subjects] = spm_select('List',fullfile(matlabroot,poblacion(pobl)));
     subjects = cellstr(subjects)'; % escojo todos los sujetos del estudio
     
-%     for i=1:length(subjects)
-%         fnm= spm_select('List', fullfile(matlabroot,subjects{i},'TEMP6'),'^rc2ss.*\.nii$'); % select images for the smooth
-%         rc2{i} = fullfile(matlabroot,subjects{i},'TEMP6',deblank(fnm(1,:)));
-%     end
+    %     for i=1:length(subjects)
+    %         fnm= spm_select('List', fullfile(matlabroot,subjects{i},'TEMP6'),'^rc2ss.*\.nii$'); % select images for the smooth
+    %         rc2{i} = fullfile(matlabroot,subjects{i},'TEMP6',deblank(fnm(1,:)));
+    %     end
     
     
     i = 1;
     while (pobl <=3 && i <= length(subjects))
         fnm= spm_select('List', fullfile(matlabroot,poblacion(pobl),subjects{i},'TEMP6','t1_mprage_TRA_1x1x1'),'^rc2ss.*\.nii$'); % select images for the smooth
-        rc2{count} = char(fullfile(matlabroot,poblacion(pobl),subjects{i},'TEMP6','t1_mprage_TRA_1x1x1',deblank(fnm(1,:))));
+        rc2{count,1} = char(fullfile(matlabroot,poblacion(pobl),subjects{i},'TEMP6','t1_mprage_TRA_1x1x1',deblank(fnm(1,:))));
         count = count + 1;
         i = i + 1;
     end
     
 end
-%% 
+%%
 
 matlabbatch{1}.spm.tools.dartel.warp.images = { rc2
-%                                                {
-%                                                '/Users/orlando/Documents/MATLAB/TESIS/test/sb1/TEMP5/rc2ss572978-0002-00001-000001-01.nii,1'
-%                                                '/Users/orlando/Documents/MATLAB/TESIS/test/sb2/TEMP5/rc2ss508840-0010-00001-000001-01.nii,1'
-%                                                '/Users/orlando/Documents/MATLAB/TESIS/test/sb3/TEMP5/rc2ss446223-0008-00001-000001-01.nii,1'
-%                                                }
-                                               }';
+    %                                                {
+    %                                                '/Users/orlando/Documents/MATLAB/TESIS/test/sb1/TEMP5/rc2ss572978-0002-00001-000001-01.nii,1'
+    %                                                '/Users/orlando/Documents/MATLAB/TESIS/test/sb2/TEMP5/rc2ss508840-0010-00001-000001-01.nii,1'
+    %                                                '/Users/orlando/Documents/MATLAB/TESIS/test/sb3/TEMP5/rc2ss446223-0008-00001-000001-01.nii,1'
+    %                                                }
+    }';
 matlabbatch{1}.spm.tools.dartel.warp.settings.template = 'Template';
 matlabbatch{1}.spm.tools.dartel.warp.settings.rform = 1;
 matlabbatch{1}.spm.tools.dartel.warp.settings.param(1).its = 3;
@@ -93,6 +93,6 @@ matlabbatch{1}.spm.tools.dartel.warp.settings.optim.lmreg = 0.01;
 matlabbatch{1}.spm.tools.dartel.warp.settings.optim.cyc = 3;
 matlabbatch{1}.spm.tools.dartel.warp.settings.optim.its = 3;
 
- spm_jobman('serial',matlabbatch);
-    disp('done CREATE TEMPLATE')
-    toc 
+spm_jobman('serial',matlabbatch);
+disp('done CREATE TEMPLATE')
+toc
