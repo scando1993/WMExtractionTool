@@ -6,9 +6,7 @@ function coresliceTESIS_dos (ruta,nombresdepoblacion)
 %%
 % 
 % * ESPOL     FIEC & FIMCP    NBL"Neuroimaging & Bioengineering Laboratory"
-% * Orlando Chancay
-% * $Id: organizarfoldersTESIS.m  23-Nov-2013  9:48:13z$
-%
+
 %% Descripcion
 % Esta funcion seleciona todas las imagenes T1 y FLAIR 
 % y las coregistra mediante la funcion 'spm_coreg', para leer las cabezaras
