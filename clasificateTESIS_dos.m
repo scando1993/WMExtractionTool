@@ -11,9 +11,6 @@ function clasificateTESIS_dos(ruta,tabla,nombredegrupos)
 %%
 % 
 % * ESPOL     FIEC & FIMCP    NBL"Neuroimaging & Bioengineering Laboratory"
-% * Orlando Chancay
-% * $Id: organizarfoldersTESIS.m  23-Nov-2013  9:48:13z$
-%
 %% Descripcion
 % Crea carpetas las que el usuario selecion en nuestro caso crearemos 3
 % carpetas 'HC', 'LPD', 'RPD.

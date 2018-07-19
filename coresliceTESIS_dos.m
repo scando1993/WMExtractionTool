@@ -6,7 +6,6 @@ function coresliceTESIS_dos (ruta,nombresdepoblacion)
 %%
 % 
 % * ESPOL     FIEC & FIMCP    NBL"Neuroimaging & Bioengineering Laboratory"
-
 %% Descripcion
 % Esta funcion seleciona todas las imagenes T1 y FLAIR 
 % y las coregistra mediante la funcion 'spm_coreg', para leer las cabezaras

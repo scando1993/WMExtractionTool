@@ -7,8 +7,6 @@ function wm_extTESIS_dos (ruta,nombresdepoblacion,varargin)
 %-----------------------------------------------------------------------
 % 
 % * ESPOL     FIEC & FIMCP    NBL"Neuroimaging & Bioengineering Laboratory"
-% * Orlando Chancay
-% Job saved on 30-Nov-2013 23:05:06 by cfg_util (rev $Rev: 4972 $)
 % spm SPM - SPM12b (5616)
 % cfg_basicio BasicIO - Unknown
 %

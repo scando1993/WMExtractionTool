@@ -9,9 +9,6 @@ function organizaTESISdos (ruta)
 %%
 % 
 % * ESPOL     FIEC & FIMCP    NBL"Neuroimaging & Bioengineering Laboratory"
-% * Orlando Chancay
-% * $Id: organizarfoldersTESIS.m  23-Nov-2013  9:48:13z$
-%
 %% Descripcion
 % Crea la carpeta 'forg2' si no existe luego utiliza spm_select para
 % selecionar las carpetas de que contiene las imagenes DICOM y empieza a
@@ -26,6 +23,7 @@ function organizaTESISdos (ruta)
 % en variable *ruta*
 
 tic
+disp('Begin Organize');
 %--------------------------------------------------------------------------
 % matlabroot='/Users/orlando/Documents/MATLAB/TESIS/test';
 matlabroot = ruta;
@@ -238,4 +236,5 @@ fclose(fid2);
 type celldata2xx.txt
 %% 
 type celldataxx.txt
+disp('Done Organize');
 toc
