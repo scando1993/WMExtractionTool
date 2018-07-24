@@ -1,4 +1,4 @@
-function [ output_args ] = load_data( route, raw_data_folder )
+function [ output_args ] = load_data( route, output_folder, raw_data_folder )
 %UNTITLED2 Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -6,9 +6,9 @@ tic
 disp('Begin Load Data');
 
 matlabroot = route;
-data_folder = 'grouped_data';
+data_folder = output_folder;
 if ~exist(fullfile(matlabroot,data_folder),'dir')
-    [status, message, messageid] = mkdir(fullfile(matlabroot),'grouped_data');
+    [status, message, messageid] = mkdir(fullfile(matlabroot),output_folder);
 end
 
 [filesA,dirsA] = spm_select('List', fullfile(raw_data_folder)); % select folders

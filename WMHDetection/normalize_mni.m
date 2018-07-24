@@ -28,7 +28,7 @@ for i=1:length(subjects(:,1))
     for sl= 1:k
         I=imgx(:,:,sl);
         
-        figure,imagesc(I),colormap(gray), title('Image Original'), axis off;axis equal
+%         figure,imagesc(I),colormap(gray), title('Image Original'), axis off;axis equal
         ICJ = I;
         
         mx = -Inf;
@@ -44,7 +44,7 @@ for i=1:length(subjects(:,1))
         msk = find(isfinite(imgt));
         n   = n+hist(imgt(msk),x);
         n(1:10)=0;
-        figure ; plot(x,n)
+%         figure ; plot(x,n)
         
         ICJ(ICJ<=100) = [];
         media = mean(ICJ(:));
@@ -106,12 +106,12 @@ for i=1:length(subjects(:,1))
     
     
     
-    matlabbatch{1}.spm.tools.dartel.mni_norm.template = {fullfile(matlabroot,'TEMPLATES','Template_6.nii')};
+    matlabbatch{1}.spm.tools.dartel.mni_norm.template = {fullfile(pwd,'TEMPLATES','Template_6.nii')};
     
-    fnm1= spm_select('List', fullfile(matlabroot,poblacion(pobl),subjects{i},'TEMP6','t1_mprage_TRA_1x1x1'),'^u_rc2ss.*\.nii$');
-    fnm2= spm_select('List', fullfile(matlabroot,poblacion(pobl),subjects{i},'TEMP6','t2_tirm_TRA_dark-fluid_3mm'),'^normWMrs.*\.nii$');
-    u = char(fullfile(matlabroot,poblacion(pobl),subjects{i},'TEMP6','t1_mprage_TRA_1x1x1',deblank(fnm1)));
-    wmflair = char(fullfile(matlabroot,poblacion(pobl),subjects{i},'TEMP6','t2_tirm_TRA_dark-fluid_3mm',deblank(fnm2(1,:))));
+    fnm1= spm_select('List', image_route,'^u_rc2s.*\.nii$');
+    fnm2= spm_select('List', image_route,'^normWMr.*\.nii$');
+    u = char(fullfile(image_route,deblank(fnm1)));
+    wmflair = char(fullfile(image_route,deblank(fnm2(1,:))));
     matlabbatch{1}.spm.tools.dartel.mni_norm.data.subj(i).flowfield = {u};
     matlabbatch{1}.spm.tools.dartel.mni_norm.data.subj(i).images = {wmflair};
     
